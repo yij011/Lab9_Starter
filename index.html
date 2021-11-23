@@ -87,21 +87,168 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "f7f1490b64af4a3e9d688b809ed3c477"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        e.preventDefault();
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        if(isNaN(firstNum)) {
+          throw new ValidationError('Operands 1 is not a number!');
+        }
+        let secondNum = document.querySelector('#second-num').value;
+        if(isNaN(secondNum)) {
+          throw new ValidationError('Operands 2 is not a number!');
+        }
+        let operator = document.querySelector('#operator').value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch(error) {
+        console.log('Sadly and error happened my friend ');
+        console.error(error);
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    // part 2
+    // Console Log
+    errorBtns[0].addEventListener('click', event => {
+      console.log('Console Log Demo');
+    });
+
+    // Console Error
+    errorBtns[1].addEventListener('click', event => {
+      console.error('Console Error Demo');
+    });
+
+    // Console Count
+    errorBtns[2].addEventListener('click', event => {
+      console.count('Count Button');
+    });
+
+    // Console Warn
+    errorBtns[3].addEventListener('click', event => {
+      console.warn('Console Warn Button');
+    });
+
+    // Console Assert
+    errorBtns[4].addEventListener('click', event => {
+      const number = 2;
+      const errorMsg = 'The number does not equal 3';
+      console.assert(number == 3, {number, errorMsg });
+    });
+
+
+    // Console Clear
+    errorBtns[5].addEventListener('click', event => {
+      console.clear()
+    });
+
+    // Console Dir
+    errorBtns[6].addEventListener('click', event => {
+      console.dir(errorBtns[0])
+    });
+
+    // Console dirxml
+    errorBtns[7].addEventListener('click', event => {
+      console.dirxml(errorBtns[7])
+    });
+
+    // Console Group Start
+    errorBtns[8].addEventListener('click', event => {
+      console.group('Console.group');
+    });
+
+    // Console Group End
+    errorBtns[9].addEventListener('click', event => {
+      console.groupEnd('Console.group');
+    });
+
+    // Console Table
+    errorBtns[10].addEventListener('click', event => {
+      console.table([
+      {
+        name: 'Software',
+        num: '110',
+      },
+      {
+        name: 'Programming',
+        num: '130',
+      },
+      {
+        name: 'Advanced',
+        num: '112',
+      }
+      ]);
+    });
+
+    // Start Timer
+    errorBtns[11].addEventListener('click', event => {
+      console.time();
+    });
+
+    // End Timer
+    errorBtns[12].addEventListener('click', event => {
+      console.timeEnd();
+    });
+
+    // Console Trace
+    errorBtns[13].addEventListener('click', event => {
+      const deep = () => { deeper(); };
+      const deeper = () => { deepest(); };
+      const deepest = () => { console.trace(); };
+      deep();
+    });
+                        
+
+    // Trigger a Global Error
+    errorBtns[14].addEventListener('click', event => {
+      throw new ReferenceError('boom is not defined');
+    });
+
+    window.onerror = function(message, source, lineno, colno, error)
+    {
+      console.log('Sadly and error happened my friend ');
+    };
+
+    // part 3
+    try{
+      for(let i = 0; i < 5; i ++) {
+        if(i == 0) {
+          //throw ("Error, denominator cannot be 0 !");
+        }
+        //console.log('1/' + i + '=' + 1/i);
+      }
+    } catch(error) {
+      console.error(error);
+    } finally {
+      console.log('Finally test');
+    }
+
+    // part 4
+    class ValidationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ValidationError";
+      }
+    }
+
+  // part 5
+  TrackJS.track('Testing TrackJS!');
+
   </script>
 </body>
 
